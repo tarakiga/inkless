@@ -1,3 +1,10 @@
+# Documentation (local only)
+prd.txt
+prd.docx
+sdd.txt
+sdd.docx
+technical-compliance.md
+
 # Dependencies
 node_modules/
 vendor/
