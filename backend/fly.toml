@@ -1,7 +1,7 @@
 # Fly.io configuration for Inkless Backend
 # https://fly.io/docs/reference/configuration/
 
-app = "inkless-api"
+app = "inkless-ng-api"
 primary_region = "lhr"  # London - closest to Nigeria
 
 [build]
