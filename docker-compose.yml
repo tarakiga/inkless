@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # Frontend (Next.js)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=https://inkless.aiqra.ai/api/v1 # Client-side URL
+    depends_on:
+      - backend
+
+  # Backend (Go)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - DATABASE_URL=postgres://inkless:inkless_password@db:5432/inkless?sslmode=disable
+      - REDIS_URL=redis://redis:6379
+      - SERVER_PORT=8080
+      - ENVIRONMENT=production
+      # Add other vars from .env here
+    depends_on:
+      - db
+      - redis
+
+  # Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=inkless
+      - POSTGRES_PASSWORD=inkless_password
+      - POSTGRES_DB=inkless
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

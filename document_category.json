@@ -1,0 +1,106 @@
+{
+  "document_categories": [
+    {
+      "id": "general_contract",
+      "name": "General Contract",
+      "description": "Service agreements, NDAs, employment contracts (non-executive), vendor agreements, etc.",
+      "risk_level": "allowed",
+      "warning_message": null,
+      "legal_basis": "Evidence Act 2011 (S.84–93); Cybercrimes Act 2015 (S.17)"
+    },
+    {
+      "id": "loan_agreement",
+      "name": "Loan Agreement",
+      "description": "Consumer or SME loan contracts, promissory notes",
+      "risk_level": "allowed",
+      "warning_message": null,
+      "legal_basis": "Evidence Act 2011 (S.84–93)"
+    },
+    {
+      "id": "lease_short",
+      "name": "Short-Term Lease (<3 years)",
+      "description": "Residential or commercial rental agreements under 3 years",
+      "risk_level": "allowed",
+      "warning_message": null,
+      "legal_basis": "Cybercrimes Act 2015 (S.17)"
+    },
+    {
+      "id": "invoice",
+      "name": "Invoice / Payment Acknowledgment",
+      "description": "Billing documents, payment confirmations",
+      "risk_level": "allowed",
+      "warning_message": null,
+      "legal_basis": "Commercial practice; Evidence Act"
+    },
+    {
+      "id": "gift_deed",
+      "name": "Gift Deed",
+      "description": "Voluntary transfer of property without consideration",
+      "risk_level": "warning_required",
+      "warning_message": "Gift deeds may require physical execution, witness attestation, and registration at the Lands Registry to be legally enforceable in Nigeria.",
+      "legal_basis": "Land Use Act; State Lands Registry requirements"
+    },
+    {
+      "id": "power_of_attorney_land",
+      "name": "Power of Attorney (Land-Related)",
+      "description": "POA authorizing land transactions, mortgages, or property sales",
+      "risk_level": "warning_required",
+      "warning_message": "Powers of Attorney affecting land must typically be registered at your State Lands Registry. Electronic signing alone may not suffice.",
+      "legal_basis": "Land Use Act (Cap L5, LFN 2004); State-specific registry rules"
+    },
+    {
+      "id": "affidavit",
+      "name": "Affidavit / Statutory Declaration",
+      "description": "Sworn statements for court or official use",
+      "risk_level": "warning_required",
+      "warning_message": "Affidavits must be sworn before a Notary Public or Commissioner for Oaths in person under Nigerian law. Electronic signatures are not accepted.",
+      "legal_basis": "Oaths Act; Court procedure rules"
+    },
+    {
+      "id": "marriage_contract",
+      "name": "Marriage or Prenuptial Agreement",
+      "description": "Agreements related to marital rights or property division",
+      "risk_level": "warning_required",
+      "warning_message": "Family law documents often require judicial review, notarization, or customary formalities. E-signatures may not be legally sufficient.",
+      "legal_basis": "Matrimonial Causes Act; Customary law considerations"
+    },
+    {
+      "id": "adoption",
+      "name": "Adoption Papers",
+      "description": "Legal documents for child adoption",
+      "risk_level": "warning_required",
+      "warning_message": "Adoption requires court approval and formal legal process. Electronic signing is not recognized for final adoption orders.",
+      "legal_basis": "Child Rights Act; Family Court procedures"
+    },
+    {
+      "id": "will",
+      "name": "Will or Codicil",
+      "description": "Last will and testament or amendments",
+      "risk_level": "excluded",
+      "warning_message": "Under Nigerian law (Wills Act), wills MUST be signed in wet ink, in the physical presence of two witnesses. Electronic signatures are INVALID for wills.",
+      "legal_basis": "Wills Act (Cap W5, LFN 2004), S.9"
+    },
+    {
+      "id": "land_deed",
+      "name": "Land Deed / Conveyance",
+      "description": "Deeds for sale, mortgage, or transfer of land",
+      "risk_level": "excluded",
+      "warning_message": "Land transactions require physical execution, notarization, and registration at the State Lands Registry. Electronic signatures alone are not legally binding.",
+      "legal_basis": "Land Use Act (Cap L5, LFN 2004); Registration of Titles Law"
+    }
+  ],
+  "risk_levels": {
+    "allowed": {
+      "action": "allow",
+      "ui_treatment": "none"
+    },
+    "warning_required": {
+      "action": "warn",
+      "ui_treatment": "yellow_alert_with_checkbox"
+    },
+    "excluded": {
+      "action": "block",
+      "ui_treatment": "red_modal_with_disclaimer"
+    }
+  }
+}

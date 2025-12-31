@@ -1,0 +1,7 @@
+{
+  "network": "hardhat-localhost",
+  "chainId": 31337,
+  "contractAddress": "0xfBCE26AFbef31Df6ff9D1Bb6C9444a658492C1Ba",
+  "deployedAt": "2025-12-30T14:16:07.014Z",
+  "deployerAddress": "0xe0e11eeB34B47F0A7Fd35C575b0817332d8c6B80"
+}

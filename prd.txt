@@ -1,0 +1,50 @@
+Product Requirements Document (PRD): Project Inkless
+Version: 1.0
+Status: Draft / High-Level Design
+Core Philosophy: Privacy-by-Design (No Document Uploads), Post-Quantum Secure, Nigeria-Compliant.
+GIT Repo: https://github.com/tarakiga/inkless.git
+1. Product Overview
+Inkless is a decentralized digital signature protocol that allows users to sign documents without uploading them to a central server. It uses local cryptographic hashing, hardware-bound keys, and NIMC-linked identity to provide a legally binding, "zero-knowledge" signing experience.
+2. Target User Personas
+? The Corporate Executive: Needs to sign high-value contracts (NDAs, MOUs) securely without trusting a third-party cloud.
+? The Government Official: Requires a system that complies with NITDA/NDPA and works in low-connectivity areas.
+? The Legal Professional: Needs an immutable audit trail that satisfies the Nigerian Evidence Act.
+3. Functional Requirements (FR)
+FR1: Local Document Processing (Zero-Upload)
+? Requirement: The application must process documents locally via the browser (WebAssembly) or mobile app.
+? Technical Spec: Use SHA-3 (256-bit) to generate a unique hash of the file. The original file binary must never be sent to Inkless servers.
+? Success Metric: Network logs show 0kb of the original file transmitted.
+FR2: Identity Binding (NIMC Integration)
+? Requirement: Signers must be verified via the National Identity Management Commission (NIMC).
+? Technical Spec: Integrate vNIN (Virtual NIN) API. The user's public key must be cryptographically "salted" with their vNIN to ensure identity-to-key mapping.
+FR3: Hardware-Bound Signing
+? Requirement: Private keys must not be stored in a database.
+? Technical Spec: Utilize WebAuthn (FIDO2) or mobile Secure Enclave/TPM to store the private key. Signing must require biometric authentication (FaceID/TouchID).
+FR4: Offline Capabilities
+? Requirement: Support signing in environments with no internet.
+? Technical Spec: * Offline Mode: User signs the hash locally.
+? Export: Generate a "Signature Package" (JSON or QR) containing the Hash + PQC Signature + Local Timestamp.
+? Sync: Automatically push the signature package to the Inkless Ledger once a connection is detected.
+FR5: Verification Portal
+? Requirement: Third parties must be able to verify document integrity.
+? Technical Spec: A "Drag-and-Drop" portal that re-hashes the document locally and compares it against the Inkless Ledger's anchored hash.
+4. Technical Stack (Proposed)
+? Frontend: React / Next.js (Web) or Flutter (Mobile) with WebAssembly (Wasm) for heavy crypto.
+? Cryptography: Crystals-Dilithium (Post-Quantum Algorithm) for signatures.
+? Backend/Ledger: Private Hyperledger Besu or Polygon Edge (deployed on Nigerian servers like MainOne/Rack Centre) for the immutable audit trail.
+? Database: PostgreSQL (for metadata/logs only; NO documents).
+5. Security & Compliance Requirements
+IDCategoryRequirementSC1Post-QuantumSignatures must be resistant to Shor's algorithm (NIST PQC Standards).SC2NDPA 2023Implement "Right to be Forgotten" on metadata while maintaining ledger integrity.SC3Non-RepudiationEvery signature must include a "Proof of Intent" (Biometric + Timestamp).SC4Data ResidencyAll API endpoints and Ledger nodes must be hosted on Nigerian IP space.6. User Experience (The "Inkless" Flow)
+1. Onboarding: User performs a one-time NIMC vNIN verification. Their phone's Secure Enclave generates a pair of Post-Quantum keys.
+2. The Signature:
+? User drags a PDF into the Inkless app.
+? App shows: "Document processed locally. Fingerprint: 0x7a...bc."
+? User clicks "Sign" -> Biometric Prompt.
+? App transmits only the Signed Hash to the Ledger.
+3. Completion: User receives a "Verification Certificate" (Token) they can attach to the email when sending the original PDF to the recipient.
+7. Roadmap & Milestones
+? Phase 1 (MVP): Local SHA-3 Hashing + WebAuthn Integration + Basic Ledger Anchoring.
+? Phase 2 (NIMC): Integration with NIMC vNIN for high-assurance identity.
+? Phase 3 (Offline): QR-based offline signature transfer and sync.
+? Phase 4 (PQC): Migration to Crystals-Dilithium for future-proof security.
+

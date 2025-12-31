@@ -1,0 +1,21 @@
+services:
+  besu:
+    image: hyperledger/besu:latest
+    container_name: inkless-besu
+    ports:
+      - "8545:8545" # JSON-RPC HTTP
+      - "8546:8546" # WebSocket
+    command:
+      - --network=dev
+      - --rpc-http-enabled
+      - --rpc-http-api=ETH,NET,WEB3,DEBUG
+      - --rpc-http-cors-origins=*
+      - --rpc-http-host=0.0.0.0
+      - --rpc-ws-enabled
+      - --rpc-ws-api=ETH,NET,WEB3
+      - --rpc-ws-host=0.0.0.0
+      - --host-allowlist=*
+      - --data-path=/tmp/besu-dev
+      - --miner-enabled
+      - --miner-coinbase=0xfe3b557e8fb62b89f4916b721be55ceb828dbd73
+    restart: unless-stopped

@@ -1,0 +1,25 @@
+# Dependencies
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files (Railway provides env vars)
+.env
+.env.local
+.env.*
+
+# Test files
+*_test.go
+coverage.out
+
+# Build artifacts
+main
+*.exe
