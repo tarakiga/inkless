@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
     Shield,
@@ -112,6 +113,10 @@ export default function FAQPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [activeCategory, setActiveCategory] = useState<string>("All");
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+    const { data: session } = useSession();
+
+    const backLink = session ? "/dashboard" : "/";
+    const backLabel = session ? "Back to Dashboard" : "Back to Home";
 
     const categories = ["All", "Security", "Legal", "Technology", "Usage", "Glossary"];
 
@@ -138,13 +143,13 @@ export default function FAQPage() {
             {/* Navigation */}
             <nav className="absolute top-0 left-0 w-full p-6 z-50 flex items-center justify-between">
                 <Link
-                    href="/dashboard"
+                    href={backLink}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900/50 backdrop-blur-md border border-white/5 hover:bg-white/5 transition-all group"
                 >
                     <div className="p-1.5 rounded-lg bg-blue-500/10 group-hover:bg-blue-500/20 transition-colors">
                         <ArrowRight className="h-4 w-4 text-blue-400 rotate-180" />
                     </div>
-                    <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">Back to Dashboard</span>
+                    <span className="text-sm font-medium text-slate-300 group-hover:text-white transition-colors">{backLabel}</span>
                 </Link>
             </nav>
 
@@ -353,8 +358,8 @@ export default function FAQPage() {
                 <div className="mt-20 text-center">
                     <p className="text-slate-500 mb-6">Still have questions?</p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link href="/dashboard" className="w-full sm:w-auto px-8 py-3 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
-                            Go to Dashboard
+                        <Link href={backLink} className="w-full sm:w-auto px-8 py-3 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-2">
+                            {session ? "Go to Dashboard" : "Go to Home"}
                             <ArrowRight className="h-4 w-4" />
                         </Link>
                         <a href="mailto:support@inkless.io" className="w-full sm:w-auto px-8 py-3 bg-slate-800 text-white font-medium rounded-xl hover:bg-slate-700 transition-colors border border-white/5">
