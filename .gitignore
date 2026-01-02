@@ -57,3 +57,7 @@ blockchain/typechain-types/
 
 # Large files
 *.wasm
+
+# Secrets
+envvariables.md
+*.pem
