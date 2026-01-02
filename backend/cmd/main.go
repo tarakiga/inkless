@@ -88,10 +88,22 @@ func main() {
 	v1.GET("/devices", deviceHandler.ListDevices)
 	v1.POST("/devices", deviceHandler.RegisterDevice)
 	v1.DELETE("/devices/:id", deviceHandler.RemoveDevice)
+	v1.POST("/devices/revoke-all", deviceHandler.RevokeAllDevices)
 
 	// Profile routes
 	profileHandler := handlers.NewProfileHandler()
 	v1.GET("/profile", profileHandler.GetProfile)
+	v1.PATCH("/profile", profileHandler.UpdateProfile)
+
+	// Preferences routes
+	preferencesHandler := handlers.NewPreferencesHandler()
+	v1.GET("/preferences", preferencesHandler.GetPreferences)
+	v1.GET("/preferences", preferencesHandler.GetPreferences)
+	v1.PATCH("/preferences", preferencesHandler.UpdatePreferences)
+
+	// Stats routes
+	statsHandler := handlers.NewStatsHandler()
+	v1.GET("/stats", statsHandler.GetDashboardStats)
 
 	// Start server with graceful shutdown
 	go func() {

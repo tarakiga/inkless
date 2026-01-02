@@ -47,6 +47,7 @@ func Migrate() error {
 		&models.VerificationToken{},
 		&models.OfflineSignature{},
 		&models.TrustedDevice{},
+		&models.UserPreferences{},
 	)
 
 	if err != nil {

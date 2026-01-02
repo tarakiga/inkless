@@ -13,6 +13,8 @@ type User struct {
 	DIDAddress   string    `gorm:"uniqueIndex;not null"`
 	VNINHash     *string   `gorm:"index"` // Nullable until NIMC verification
 	DevicePubKey string    `gorm:"not null"`
+	FullName     string    `gorm:"type:varchar(255)"`
+	Email        string    `gorm:"type:varchar(255)"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 
@@ -95,6 +97,21 @@ type TrustedDevice struct {
 	User User `gorm:"foreignKey:UserID"`
 }
 
+// UserPreferences stores user settings like theme and notifications
+type UserPreferences struct {
+	ID                 uuid.UUID `gorm:"type:uuid;primary_key;default:gen_random_uuid()"`
+	UserID             uuid.UUID `gorm:"type:uuid;not null;uniqueIndex"`
+	Theme              string    `gorm:"type:varchar(20);default:'dark'"` // system, dark, light
+	NotifyOnSign       bool      `gorm:"default:true"`
+	NotifyOnNewDevice  bool      `gorm:"default:true"`
+	NotifyWeeklyReport bool      `gorm:"default:false"`
+	CreatedAt          time.Time
+	UpdatedAt          time.Time
+
+	// Relationships
+	User User `gorm:"foreignKey:UserID"`
+}
+
 // BeforeCreate hook for User
 func (u *User) BeforeCreate(tx *gorm.DB) error {
 	if u.ID == uuid.Nil {
@@ -142,6 +159,14 @@ func (o *OfflineSignature) BeforeCreate(tx *gorm.DB) error {
 func (d *TrustedDevice) BeforeCreate(tx *gorm.DB) error {
 	if d.ID == uuid.Nil {
 		d.ID = uuid.New()
+	}
+	return nil
+}
+
+// BeforeCreate hook for UserPreferences
+func (p *UserPreferences) BeforeCreate(tx *gorm.DB) error {
+	if p.ID == uuid.Nil {
+		p.ID = uuid.New()
 	}
 	return nil
 }

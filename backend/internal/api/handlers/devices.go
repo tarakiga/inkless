@@ -156,3 +156,31 @@ func (h *DeviceHandler) RemoveDevice(c echo.Context) error {
 		"message": "Device removed successfully",
 	})
 }
+
+// RevokeAllDevices handles POST /api/v1/devices/revoke-all
+func (h *DeviceHandler) RevokeAllDevices(c echo.Context) error {
+	// For MVP, get the demo user
+	var user models.User
+	if err := db.DB.Where("did_address = ?", "did:inkless:demo").First(&user).Error; err != nil {
+		return c.JSON(http.StatusNotFound, map[string]string{
+			"error": "User not found",
+		})
+	}
+
+	// Mark all devices as inactive except current
+	currentIP := c.RealIP()
+	result := db.DB.Model(&models.TrustedDevice{}).
+		Where("user_id = ? AND ip_address != ?", user.ID, currentIP).
+		Update("is_active", false)
+
+	if result.Error != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "Failed to revoke devices",
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message":        "All other devices have been signed out",
+		"devicesRevoked": result.RowsAffected,
+	})
+}
